@@ -38,30 +38,60 @@ function build(elementtype, classname, id, style, htmlcontent){
     header.appendChild(titlecontainer)
     init.appendChild(header)
     
-
+function create(){
 //MAIN
 main = build('main','container mx-auto','','','')
 init.appendChild(main)
 
+// player box
+// var pboxcontainer= build('div','container','','','');
+// var pboxrow = build('div','row','','','')
+// var pboxcol = build('div','col-6 mx-auto','','','')
+// var ptext = build('button','btn btn-lg btn-primary btn-block','btn1','','PLAYER 1:')
+
+// footercol.appendChild(resetbtn)
+// footerrow.appendChild(footercol)
+// footercontainer.appendChild(footerrow)
+// footer.appendChild(footercontainer)
+// init.appendChild(footer)
+
 //game
 
 let tilenumber = 0;
-let gamerow = ""
-let gamecall = ""
+let gamerow = "";
+let gamecall = "";
+let state = 0;
 
 gamecontainer = build('div','container mx-auto p-0','','','')
 
 for(let i=1; i <= 3; i++){
-    gamerow = build('div','row border-top border-bottom mx-auto','row' + i,'min-height: 15vh; maxheight: 25vh; max-width: 50vw','');
+    gamerow = build('div','row border-top border-bottom mx-auto','row' + i,'min-height: 15vh; height: 15vh; max-width: 30rem','');
     for(let j = 1; j <= 3; j++){
-        tilenumber = tilenumber + 1
-        gamecol = build('div', 'col-4 border-left border-right',tilenumber,'',tilenumber)
-        gamerow.appendChild(gamecol)
+            tilenumber = tilenumber + 1
+            gamecol = build('div', 'col-4 border-left border-right text-center display-4 pt-4',tilenumber,'','')
+            gamecol.onclick = run;
+
+            gamerow.appendChild(gamecol)
     }
-    gamecontainer.appendChild(gamerow)
+        gamecontainer.appendChild(gamerow)
 }
 main.appendChild(gamecontainer)
 init.appendChild(main)
+
+
+function run(){
+    if(this.innerHTML == ""){
+        if(state % 2 == 0){
+            this.innerHTML = "X"
+        }
+        else{
+            this.innerHTML = "O"
+        }
+        state += 1
+    }
+    else{
+    }
+}
 
 
 //FOOTER 
@@ -70,7 +100,7 @@ var footer = build('footer','my-5','','','','')
 var footercontainer = build('div','container','','','');
 var footerrow = build('div','row','','','')
 var footercol = build('div','col-6 mx-auto','','','')
-var resetbtn = build('button','btn btn-lg btn-primary btn-block','','','RESET GAME')
+var resetbtn = build('button','btn btn-lg btn-primary btn-block','btn1','','RESET GAME')
 
 footercol.appendChild(resetbtn)
 footerrow.appendChild(footercol)
@@ -78,57 +108,16 @@ footercontainer.appendChild(footerrow)
 footer.appendChild(footercontainer)
 init.appendChild(footer)
 
+resetbtn.onclick = function clear(){
+    main.innerHTML = '';
+    footer.innerHTML = '';
+    create();
+}
+}
 
 
+create();
 
 //GAME THEORY 
-tiles = []
-state = 1;
-
-tile1 = document.getElementById('1')
-    tiles.push(tile1)
-tile2 = document.getElementById('2')
-    tiles.push(tile2)
-tile3 = document.getElementById('3')
-    tiles.push(tile3)
-tile4 = document.getElementById('4')
-    tiles.push(tile4)
-tile5 = document.getElementById('5')
-    tiles.push(tile5)
-tile6 = document.getElementById('6')
-    tiles.push(tile6)
-tile7 = document.getElementById('7')
-    tiles.push(tile7)
-tile8 = document.getElementById('8')
-    tiles.push(tile8)
-tile9 = document.getElementById('9')
-    tiles.push(tile9)
-
-console.log(tiles)
-
-for(i = 1; i <= 9; i++){
-    if(tiles[i].onclick() == true){
-        n = tiles[i]
-        clicked();
-    }
-}
-
-function clicked(){
-    if(state % 2 == 0){
-        n.innerHTML = "X"
-    }
-    else{
-        n.innerHTML = "O"
-    }
-    state += 1
-}
-
-
-
-
-
-
-
-
 
 
