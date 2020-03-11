@@ -8,6 +8,8 @@ var init = document.getElementById('init')
 let tilenumber = 0;
 let gamerow = "";
 let state = 0;
+let winner1 = 0;
+let winner2 = 0;
 let win = [
     ["1", "2", "3"],
     ["4", "5", "6"],
@@ -20,6 +22,7 @@ let win = [
 ]
 let xarr = [];
 let oarr = [];
+let toggle = 0;
 let winning = false
 
 document.body.className = "container bg-dark text-white mt-0"
@@ -58,13 +61,13 @@ function create() {
 
 
 
-//FOOTER 
+    //FOOTER (button)
 
     var footer = build('footer', 'my-5', '', '', '', '')
     var footercontainer = build('div', 'container', '', '', '');
     var footerrow = build('div', 'row', '', '', '')
     var footercol = build('div', 'col-8 mx-auto', '', '', '')
-    var resetbtn = build('button', 'btn btn-lg btn-primary btn-block', 'btn1', '', 'RESET GAME')
+    var resetbtn = build('button', 'btn btn-lg btn-primary btn-block', 'btn1', '', 'RESTART GAME')
 
     footercol.appendChild(resetbtn)
     footerrow.appendChild(footercol)
@@ -77,12 +80,20 @@ function create() {
         footer.innerHTML = '';
         tilenumber = 0;
         gamerow = "";
-        state = 0;
         xarr = [];
         oarr = [];
-        winning = false
-        ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
+        toggle++
+        if(toggle % 2 == 0){
+            ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
+            state = 0;
+        }
+        else{
+            ptext.innerHTML = "PLAYER 2: O STARTS GAME ON!"
+            state = 1;
+        }
+        resetbtn.innerHTML = "PLAY AGAIN"
         ptext.style.color = "white";
+        winning = false
         create();
     }
 }
@@ -109,8 +120,12 @@ function run() {
                     ptext.innerHTML = "PLAYER 1: X WINS!!!"
                     ptext.className = "display-5 text-center"
                     btn1.style.backgroundColor = "green"
-
+                    btn1.innerHTML = "PLAY AGAIN"
+                    
                     winning = true
+                    winner1++
+                    winner1text.innerHTML = `Player 1 WINS: ${winner1}`
+                    
                 }
             }
         
@@ -136,14 +151,18 @@ function run() {
                     ptext.innerHTML = "PLAYER 2: O WINS!!!"
                     ptext.className = "display-5 text-center"
                     btn1.style.backgroundColor = "green"
-                        
+                    btn1.innerHTML = "PLAY AGAIN"
+                      
+                    winner2++
+                
+                    winner2text.innerHTML = `Player 2 WINS: ${winner2}`
                     winning = true
                 }
             }
         }
         state++;
     }
-    if(state == 9 && winning == false ){
+    if(state >= 9 && winning == false ){
         ptext.style.color = "yellow";
         ptext.innerHTML = "ITS A TIE!!!"
     }
@@ -181,6 +200,23 @@ pboxcol.appendChild(ptext)
 pboxrow.appendChild(pboxcol)
 pboxcontainer.appendChild(pboxrow)
 header.appendChild(pboxcontainer)
+
+//winners row
+
+var winnercontainer = build('div', 'container', '', 'max-width: 30rem;', '');
+var winnersrow = build('div', 'row', '', '', '')
+var winner1col = build('div', 'col-6 mx-auto text-center', '', '', '')
+var winner2col = build('div', 'col-6 mx-auto text-center', '', '', '')
+var winner1text = build('h5', '', '', '',`Player 1 WINS: ${winner1}`)
+var winner2text = build('h5', '', '', '',`Player 2 WINS: ${winner2}`)
+
+winner1col.appendChild(winner1text)
+winner2col.appendChild(winner2text)
+winnersrow.appendChild(winner1col)
+winnersrow.appendChild(winner2col)
+winnercontainer.appendChild(winnersrow)
+header.appendChild(winnercontainer)
+
 
 
 init.appendChild(header)
