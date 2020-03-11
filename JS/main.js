@@ -81,7 +81,7 @@ function create() {
         xarr = [];
         oarr = [];
         winning = false
-        ptext.innerHTML = "PLAYER 1: X STARTS \n GAME ON!"
+        ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
         ptext.style.color = "white";
         create();
     }
@@ -167,7 +167,7 @@ header.appendChild(titlecontainer)
 var pboxcontainer = build('div', 'container', '', '', '');
 var pboxrow = build('div', 'row my-3', '', '', '')
 var pboxcol = build('div', 'col-12 mx-auto text-center', '', '', '')
-var ptext = build('h4', '', '', '', "PLAYER 1: X STARTS <br> GAME ON!")
+var ptext = build('h4', '', '', '', "PLAYER 1: X STARTS GAME ON!")
 
 pboxcol.appendChild(ptext)
 pboxrow.appendChild(pboxcol)
