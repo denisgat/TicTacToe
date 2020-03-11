@@ -4,10 +4,6 @@
 //create initial div variable so that elements created later are above JS in HTML
 var init = document.getElementById('init')
 
-//create Text Variables                
-var xtext = document.createTextNode("X");
-var otext = document.createTextNode("O");
-
 //game global variables 
 let tilenumber = 0;
 let gamerow = "";
@@ -43,8 +39,7 @@ function create() {
     main = build('main', 'container mx-auto', '', '', '')
     init.appendChild(main)
 
-    //game
-
+//game
 
     gamecontainer = build('div', 'container mx-auto p-0', '', '', '')
 
@@ -68,7 +63,7 @@ function create() {
     var footer = build('footer', 'my-5', '', '', '', '')
     var footercontainer = build('div', 'container', '', '', '');
     var footerrow = build('div', 'row', '', '', '')
-    var footercol = build('div', 'col-6 mx-auto', '', '', '')
+    var footercol = build('div', 'col-8 mx-auto', '', '', '')
     var resetbtn = build('button', 'btn btn-lg btn-primary btn-block', 'btn1', '', 'RESET GAME')
 
     footercol.appendChild(resetbtn)
@@ -86,7 +81,8 @@ function create() {
         xarr = [];
         oarr = [];
         winning = false
-        ptext.innerHTML = "PLAYER: X STARTS \n GAME ON"
+        ptext.innerHTML = "PLAYER 1: X STARTS \n GAME ON!"
+        ptext.style.color = "white";
         create();
     }
 }
@@ -95,15 +91,22 @@ function run() {
     if (this.innerHTML == "" && winning == false){
         if (state % 2 == 0) {
             this.innerHTML = "X"
+            this.style.color = "crimson"
             xarr.push(this.id)
-            ptext.innerHTML = "PLAYER: O's TURN"
+            ptext.innerHTML = "PLAYER 2: O's TURN"
+            ptext.style.color = "dodgerblue"
+
             for (i = 0; i < win.length; i++) {
                 if (xarr.includes(win[i][0]) &&
                     xarr.includes(win[i][1]) &&
                     xarr.includes(win[i][2])) {
-
-                    ptext.innerHTML = "PLAYER X WINS!!!"
+                    
+                
+                    ptext.style.color = "forestgreen";
+                    ptext.innerHTML = "PLAYER 1: X WINS!!!"
                     ptext.className = "display-5 text-center"
+                    btn1.style.backgroundColor = "green"
+
                     winning = true
                 }
             }
@@ -112,24 +115,28 @@ function run() {
         else {
             this.innerHTML = "O"
             oarr.push(this.id)
-            ptext.innerHTML = "PLAYER: X's TURN"
+            this.style.color = "dodgerblue"
+            ptext.innerHTML = "PLAYER 1: X's TURN"
+            ptext.style.color = "crimson"
 
             for (i = 0; i < win.length; i++) {
                 if (oarr.includes(win[i][0]) &&
                     oarr.includes(win[i][1]) &&
                     oarr.includes(win[i][2])) {
 
-                    ptext.innerHTML = "PLAYER O WINS!!!"
+                    ptext.style.color = "forestgreen";
+                    ptext.innerHTML = "PLAYER 2: O WINS!!!"
                     ptext.className = "display-5 text-center"
+                    btn1.style.backgroundColor = "green"
+                        
                     winning = true
                 }
             }
         }
         state++;
     }
-    console.log(state)
-    console.log(winning)
     if(state == 9 && winning == false ){
+        ptext.style.color = "yellow";
         ptext.innerHTML = "ITS A TIE!!!"
     }
 }
@@ -155,30 +162,24 @@ titlecontainer.appendChild(titlerow)
 header.appendChild(titlecontainer)
 
 
-// player box
+// Player box
 
 var pboxcontainer = build('div', 'container', '', '', '');
-var pboxrow = build('div', 'row m-3', '', '', '')
-var pboxcol = build('div', 'col-6 mx-auto text-center', '', '', '')
-var ptext = build('h4', '', '', '', "PLAYER: X STARTS \n GAME ON")
+var pboxrow = build('div', 'row my-3', '', '', '')
+var pboxcol = build('div', 'col-12 mx-auto text-center', '', '', '')
+var ptext = build('h4', '', '', '', "PLAYER 1: X STARTS <br> GAME ON!")
 
 pboxcol.appendChild(ptext)
 pboxrow.appendChild(pboxcol)
 pboxcontainer.appendChild(pboxrow)
 header.appendChild(pboxcontainer)
 
+
 init.appendChild(header)
 
-//MAIN
 
-
-
-
-
-
-// footer.style.display = "none"
 create();
 
-//GAME THEORY 
+
 
 
