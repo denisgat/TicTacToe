@@ -101,7 +101,10 @@ function run() {
                     xarr.includes(win[i][1]) &&
                     xarr.includes(win[i][2])) {
                     
-                
+                    for(let j = 0;j < win[i].length; j++){
+                        document.getElementById(win[i][j]).style.backgroundColor = "green"             
+                    }
+
                     ptext.style.color = "forestgreen";
                     ptext.innerHTML = "PLAYER 1: X WINS!!!"
                     ptext.className = "display-5 text-center"
@@ -123,6 +126,11 @@ function run() {
                 if (oarr.includes(win[i][0]) &&
                     oarr.includes(win[i][1]) &&
                     oarr.includes(win[i][2])) {
+                    
+                    for(let j = 0;j < win[i].length; j++){
+                       document.getElementById(win[i][j]).style.backgroundColor = "green"             
+                    }
+
 
                     ptext.style.color = "forestgreen";
                     ptext.innerHTML = "PLAYER 2: O WINS!!!"
