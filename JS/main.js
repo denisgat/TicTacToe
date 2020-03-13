@@ -5,8 +5,8 @@
 var init = document.getElementById('init')
 
 //game global variables 
-let tilenumber = 0;
 let gamerow = "";
+let tilenumber = 0;
 let state = 0;
 let winner1 = 0;
 let winner2 = 0;
@@ -27,8 +27,9 @@ let winning = false
 
 document.body.className = "container bg-dark text-white mt-0"
 
-//functions
+//---------------------------------------------------FUNCTIONS----------------------------------------------------------\\
 
+// Main function that is utilized to build up HTML elements with custom parameters for the elements.
 function build(elementtype, classname, id, style, htmlcontent) {
     element = document.createElement(elementtype)
     element.className = classname
@@ -38,13 +39,15 @@ function build(elementtype, classname, id, style, htmlcontent) {
     return element
 }
 
+//function that constructs the main board of game 
+
 function create() {
     main = build('main', 'container mx-auto', '', '', '')
     init.appendChild(main)
 
-//game
-
     gamecontainer = build('div', 'container mx-auto p-0', '', '', '')
+
+    //LOOPs that cycles through through 3 row and within each row creates 3 columns
 
     for (let i = 1; i <= 3; i++) {
         gamerow = build('div', 'row border-top border-bottom mx-auto', 'row' + i, 'min-height: 15vh; height: 15vh; max-width: 30rem', '');
@@ -58,60 +61,99 @@ function create() {
     }
     main.appendChild(gamecontainer)
     init.appendChild(main)
+}
 
+//function that constructs the footer with buttons
 
+function footerbtns(){
 
-    //FOOTER (button)
+    //Creating footer and button variable elements
 
-    var footer = build('footer', 'my-5', '', '', '', '')
-    var footercontainer = build('div', 'container', '', '', '');
-    var footerrow = build('div', 'row', '', '', '')
-    var footercol = build('div', 'col-8 mx-auto', '', '', '')
-    var resetbtn = build('button', 'btn btn-lg btn-primary btn-block', 'btn1', '', 'RESTART GAME')
+    var footer = build('footer', 'my-5 p-1','footer', '', '', '')
+    var footercontainer = build('div', 'container p-0', '', 'max-width: 30rem;', '');
+    var footerrow = build('div', 'row', '', 'max-width: 33rem', '')
+    var footercol1 = build('div', 'col-5', '', 'left: 0px', '')
+    var footercol2 = build('div', 'offset-2 col-5','', '','')
+    var resetbtn = build('button','btn btn-lg btn-outline-primary btn-block', 'btn1', '', 'RESET')
+    var AIbtn = build('button','btn btn-lg btn-outline-primary btn-block', 'btn2', '', 'PLAY AI')
+    var twoplayerbtn = build('button','btn btn-lg btn-outline-primary btn-block m-0', 'btn3', '', 'TWO PLAYER')
+    var newgamebtn = build('button','btn btn-lg btn-primary btn-block m-0', 'btn4', 'background-color: crimson;', 'NEW GAME')
 
-    footercol.appendChild(resetbtn)
-    footerrow.appendChild(footercol)
+    //appending footer 
+
+    footercol1.appendChild(resetbtn)
+    footercol1.appendChild(twoplayerbtn)
+    footercol2.appendChild(AIbtn)
+    footercol2.appendChild(newgamebtn)
+    footerrow.appendChild(footercol1)
+    footerrow.appendChild(footercol2)
     footercontainer.appendChild(footerrow)
     footer.appendChild(footercontainer)
     init.appendChild(footer)
 
+    btn1.style.display = "none"
+
+    //when the rest button is pressed
+
     resetbtn.onclick = function clear() {
-        main.innerHTML = '';
-        footer.innerHTML = '';
+        //clears the gaming board and btns so that they can be reconstructed in the correct order
+        init.removeChild(main);
+        init.removeChild(footer);
+
+        //sets inital variables to reset game 
         tilenumber = 0;
         gamerow = "";
         xarr = [];
         oarr = [];
         toggle++
-        if(toggle % 2 == 0){
-            ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
-            state = 0;
-        }
-        else{
-            ptext.innerHTML = "PLAYER 2: O STARTS GAME ON!"
-            state = 1;
-        }
         resetbtn.innerHTML = "PLAY AGAIN"
         ptext.style.color = "white";
         winning = false
         create();
+        footerbtns();
+        btn2.style.display = "none"
+        btn3.style.display = "none"
+        btn4.style.display ="none"
+        
+        //alternating between x and o starting the game
+        if(toggle % 2 == 0){
+            ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
+            ptext.style.color = "crimson"
+            state = 0;
+        }
+        else{
+            ptext.innerHTML = "PLAYER 2: O STARTS GAME ON!"
+            ptext.style.color = "dodgerblue"
+            state = 1;
+        }
     }
 }
 
+//funciton that runs once any of the columns that were created in tic tac toe grid based on their id
+
 function run() {
+    //shows reset button and hides the 2 player and AI btns
+    btn1.style.display = "block"
+    btn2.style.display = "none"
+    btn3.style.display ="none"
+
+    //makes sure that the column being pressed is empty and that no one has won the game yet.
+
     if (this.innerHTML == "" && winning == false){
+        //checks that state is even so that X is placed in column
         if (state % 2 == 0) {
             this.innerHTML = "X"
             this.style.color = "crimson"
             xarr.push(this.id)
             ptext.innerHTML = "PLAYER 2: O's TURN"
             ptext.style.color = "dodgerblue"
-
+            //checks whether any of the O btn combonations clicked match any of the winning combos in tic tac toe
             for (i = 0; i < win.length; i++) {
                 if (xarr.includes(win[i][0]) &&
                     xarr.includes(win[i][1]) &&
                     xarr.includes(win[i][2])) {
-                    
+
+                    //takes the winning 3 columns and changes their background color
                     for(let j = 0;j < win[i].length; j++){
                         document.getElementById(win[i][j]).style.backgroundColor = "green"             
                     }
@@ -121,8 +163,11 @@ function run() {
                     ptext.className = "display-5 text-center"
                     btn1.style.backgroundColor = "green"
                     btn1.innerHTML = "PLAY AGAIN"
-                    
                     winning = true
+                    btn4.style.display ="block"
+                    btn1.className = 'btn btn-lg btn-primary btn-block'
+
+                    //changes the score when X wins
                     winner1++
                     winner1text.innerHTML = `Player 1 WINS: ${winner1}`
                     
@@ -130,6 +175,7 @@ function run() {
             }
         
         }
+        //when state is odd O is palced in the column
         else {
             this.innerHTML = "O"
             oarr.push(this.id)
@@ -137,11 +183,14 @@ function run() {
             ptext.innerHTML = "PLAYER 1: X's TURN"
             ptext.style.color = "crimson"
 
+            //checks whether any of the O btn combonations clicked match any of the winning combos in tic tac toe
             for (i = 0; i < win.length; i++) {
                 if (oarr.includes(win[i][0]) &&
                     oarr.includes(win[i][1]) &&
                     oarr.includes(win[i][2])) {
-                    
+
+                    //takes the winning 3 columns and changes their background color
+
                     for(let j = 0;j < win[i].length; j++){
                        document.getElementById(win[i][j]).style.backgroundColor = "green"             
                     }
@@ -152,27 +201,47 @@ function run() {
                     ptext.className = "display-5 text-center"
                     btn1.style.backgroundColor = "green"
                     btn1.innerHTML = "PLAY AGAIN"
-                      
-                    winner2++
-                
-                    winner2text.innerHTML = `Player 2 WINS: ${winner2}`
+                    btn1.className = 'btn btn-lg btn-primary btn-block'
                     winning = true
+                    btn4.style.display ="block"
+                
+                    //changes the score when O wins
+                    winner2++
+                    winner2text.innerHTML = `Player 2 WINS: ${winner2}`
                 }
             }
         }
-        state++;
+        //changes state and 
+        state++
     }
-    if(state >= 9 && winning == false ){
-        ptext.style.color = "yellow";
-        ptext.innerHTML = "ITS A TIE!!!"
+    if(toggle % 2 == 0){
+        if(state >= 9 && winning == false ){
+            ptext.style.color = "yellow";
+            ptext.innerHTML = "ITS A TIE!!!"
+            btn1.style.backgroundColor = "yellow"
+            btn1.style.color = "black";
+            btn1.innerHTML = "PLAY AGAIN"
+            btn1.className = 'btn btn-lg btn-primary btn-block'
+            btn4.style.display ="block"
+        }
     }
+    else{
+        if(state >= 10 && winning == false ){
+            ptext.style.color = "yellow";
+            ptext.innerHTML = "ITS A TIE!!!"
+            btn1.style.backgroundColor = "yellow"
+            btn1.style.color = "black";
+            btn1.innerHTML = "PLAY AGAIN"
+            btn1.className = 'btn btn-lg btn-primary btn-block'
+            btn4.style.display ="block"
+        }
+    }   
 }
 
 
 
-//UI
+//-------------------------------------------------------USER INTERFACE HEADER----------------------------------------\\
 
-// HEADER 
 
 
 //Title
@@ -181,7 +250,7 @@ h1 = build('h2', 'display-4 text-center font-weight-bold', '', '', 'TIC TAC TOE'
 titlecol = build('div', 'col-12', '', '', '', '')
 titlerow = build('div', 'row', 'p-0', '', '', '')
 titlecontainer = build('container', 'm-0', '', '', '')
-header = build('header', 'my-5', '', '', '')
+header = build('header', 'my-4', '', '', '')
 
 titlecol.appendChild(h1)
 titlerow.appendChild(titlecol)
@@ -191,10 +260,11 @@ header.appendChild(titlecontainer)
 
 // Player box
 
-var pboxcontainer = build('div', 'container', '', '', '');
+var pboxcontainer = build('div', 'container', 'pboxcontainer', '', '');
 var pboxrow = build('div', 'row my-3', '', '', '')
 var pboxcol = build('div', 'col-12 mx-auto text-center', '', '', '')
 var ptext = build('h4', '', '', '',"PLAYER 1: X STARTS GAME ON!")
+ptext.style.color = "crimson"
 
 pboxcol.appendChild(ptext)
 pboxrow.appendChild(pboxcol)
@@ -203,7 +273,9 @@ header.appendChild(pboxcontainer)
 
 //winners row
 
-var winnercontainer = build('div', 'container', '', 'max-width: 30rem;', '');
+
+
+var winnercontainer = build('div', 'container','winnerscontainer', 'max-width: 30rem;', '');
 var winnersrow = build('div', 'row', '', '', '')
 var winner1col = build('div', 'col-6 mx-auto text-center', '', '', '')
 var winner2col = build('div', 'col-6 mx-auto text-center', '', '', '')
@@ -217,12 +289,34 @@ winnersrow.appendChild(winner2col)
 winnercontainer.appendChild(winnersrow)
 header.appendChild(winnercontainer)
 
-
-
+//initializing the header into the HTML
 init.appendChild(header)
 
+//sets up the first option for two player or AI
+pboxcontainer.style.display = "none"
+winnerscontainer.style.display = "none"
 
-create();
+footerbtns();
+
+btn1.style.display = "none"
+btn4.style.display ="none"
+
+//once two player is clicked
+btn3.onclick = function btn3run(){
+    pboxcontainer.style.display = "block"
+    winnerscontainer.style.display = "block"
+    init.removeChild(footer)
+    create();
+    footerbtns();
+    btn4.style.display ="none"
+    btn3.style.display = "none"
+    btn2.style.display = "none"
+    
+    
+}
+
+
+
 
 
 
