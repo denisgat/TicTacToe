@@ -77,7 +77,7 @@ function footerbtns(){
     var resetbtn = build('button','btn btn-lg btn-outline-primary btn-block', 'btn1', '', 'RESET')
     var AIbtn = build('button','btn btn-lg btn-outline-primary btn-block', 'btn2', '', 'PLAY AI')
     var twoplayerbtn = build('button','btn btn-lg btn-outline-primary btn-block m-0', 'btn3', '', 'TWO PLAYER')
-    var newgamebtn = build('button','btn btn-lg btn-primary btn-block m-0', 'btn4', 'background-color: crimson;', 'NEW GAME')
+    var newgamebtn = build('button','btn btn-lg btn-primary btn-block m-0','btn4', 'background-color: crimson;', 'NEW GAME')
 
     //appending footer 
 
@@ -236,6 +236,16 @@ function run() {
             btn4.style.display ="block"
         }
     }   
+
+    btn4.onclick = function btn4run(){
+        pboxcontainer.style.display = "none"
+        winnerscontainer.style.display = "none"
+        init.removeChild(main)
+        init.removeChild(footer)
+        footerbtns();
+        btn1.style.display = "none"
+        btn4.style.display ="none"
+    }
 }
 
 
@@ -311,9 +321,10 @@ btn3.onclick = function btn3run(){
     btn4.style.display ="none"
     btn3.style.display = "none"
     btn2.style.display = "none"
-    
-    
 }
+
+
+
 
 
 
