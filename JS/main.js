@@ -39,6 +39,42 @@ function build(elementtype, classname, id, style, htmlcontent) {
     return element
 }
 
+
+//sets up the first option for two player or AI
+function begin(){
+    pboxcontainer.style.display = "none"
+    winnerscontainer.style.display = "none"
+
+    footerbtns();
+
+    btn1.style.display = "none"
+    btn4.style.display ="none"
+
+    //once two player is clicked
+    btn3.onclick = btn3run;
+}
+
+
+//when two player is clicked
+function btn3run(){
+    state = 0;
+    toggle = 0
+    pboxcontainer.style.display = "block"
+    winnerscontainer.style.display = "block"
+    winner1 = 0;
+    winner2 = 0;
+    init.removeChild(footer)
+    create();
+    footerbtns();
+    btn4.style.display ="none"
+    btn3.style.display = "none"
+    btn2.style.display = "none"
+    // btn1.style.display = "block"1`21`
+
+    ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
+    ptext.style.color = "crimson"
+}
+
 //function that constructs the main board of game 
 
 function create() {
@@ -92,6 +128,7 @@ function footerbtns(){
     init.appendChild(footer)
 
     btn1.style.display = "none"
+
 
     //when the rest button is pressed
 
@@ -173,7 +210,6 @@ function run() {
                     
                 }
             }
-        
         }
         //when state is odd O is palced in the column
         else {
@@ -211,9 +247,10 @@ function run() {
                 }
             }
         }
-        //changes state and 
+        //changes state 
         state++
     }
+    //Making sure that when x starts the tie will still be the same as when o starts.
     if(toggle % 2 == 0){
         if(state >= 9 && winning == false ){
             ptext.style.color = "yellow";
@@ -225,6 +262,7 @@ function run() {
             btn4.style.display ="block"
         }
     }
+
     else{
         if(state >= 10 && winning == false ){
             ptext.style.color = "yellow";
@@ -236,7 +274,7 @@ function run() {
             btn4.style.display ="block"
         }
     }   
-
+    //when newgame is clicked
     btn4.onclick = function btn4run(){
         pboxcontainer.style.display = "none"
         winnerscontainer.style.display = "none"
@@ -245,7 +283,10 @@ function run() {
         footerbtns();
         btn1.style.display = "none"
         btn4.style.display ="none"
+        //when two player button is clicked after newgame
+        btn3.onclick = btn3run;
     }
+
 }
 
 
@@ -302,26 +343,7 @@ header.appendChild(winnercontainer)
 //initializing the header into the HTML
 init.appendChild(header)
 
-//sets up the first option for two player or AI
-pboxcontainer.style.display = "none"
-winnerscontainer.style.display = "none"
-
-footerbtns();
-
-btn1.style.display = "none"
-btn4.style.display ="none"
-
-//once two player is clicked
-btn3.onclick = function btn3run(){
-    pboxcontainer.style.display = "block"
-    winnerscontainer.style.display = "block"
-    init.removeChild(footer)
-    create();
-    footerbtns();
-    btn4.style.display ="none"
-    btn3.style.display = "none"
-    btn2.style.display = "none"
-}
+begin();
 
 
 
