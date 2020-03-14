@@ -5,11 +5,12 @@
 var init = document.getElementById('init')
 
 //game global variables 
-let gamerow = "";
+let gamerow;
+let ai = false
 let tilenumber = 0;
 let state = 0;
-let winner1 = 0;
-let winner2 = 0;
+var winner1 = 0;
+var winner2 = 0;
 let win = [
     ["1", "2", "3"],
     ["4", "5", "6"],
@@ -63,6 +64,9 @@ function btn3run(){
     winnerscontainer.style.display = "block"
     winner1 = 0;
     winner2 = 0;
+    winner1text.innerHTML = `Player 1 WINS: ${winner1}`
+    winner2text.innerHTML = `Player 2 WINS: ${winner2}`
+
     init.removeChild(footer)
     create();
     footerbtns();
@@ -71,8 +75,9 @@ function btn3run(){
     btn2.style.display = "none"
     // btn1.style.display = "block"1`21`
 
-    ptext.innerHTML = "PLAYER 1: X STARTS GAME ON!"
-    ptext.style.color = "crimson"
+    ptext.innerHTML = "PLAYER 2: O STARTS GAME ON!"
+    ptext.style.color = "dodgerblue"
+
 }
 
 //function that constructs the main board of game 
