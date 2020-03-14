@@ -73,8 +73,10 @@ function btn3run(){
     btn4.style.display ="none"
     btn3.style.display = "none"
     btn2.style.display = "none"
+
     // btn1.style.display = "block"1`21`
 
+    run(); 
     ptext.innerHTML = "PLAYER 2: O STARTS GAME ON!"
     ptext.style.color = "dodgerblue"
 
@@ -175,6 +177,7 @@ function footerbtns(){
 
 function run() {
     //shows reset button and hides the 2 player and AI btns
+
     btn1.style.display = "block"
     btn2.style.display = "none"
     btn3.style.display ="none"
